@@ -31,7 +31,8 @@
             height: 100vh;
             width: 100%;
             max-width: 400px;
-            padding: 20px;
+            padding: 20px 24px; /* 设置左右 padding 为 24px */
+            box-sizing: border-box;
         }
         .pass-display {
             font-size: 32px;
@@ -75,7 +76,13 @@
             font-size: 14px;
         }
         
-        #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 28px; } /* 原 20px + 8px = 28px */
+        #main-content { 
+            display: none; 
+            width: 100%; 
+            max-width: 680px; 
+            padding: 80px 24px; /* 设置左右 padding 为 24px */
+            box-sizing: border-box;
+        }
         .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 24px; align-items: flex-start; }
         .article-card .info { flex: 1; }
         .article-card h2 { margin: 0 0 12px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.3; }
@@ -140,7 +147,7 @@
                     { type: 'image', value: "https://onevcat.com/assets/images/2025/horse-engine.png" },
                     { type: 'image', value: "https://onevcat.com/assets/images/2025/chess-elo.png" },
                     { type: 'heading', value: "结语" },
-                    { type: 'text', value: "与其在恐惧中裹足不前，不如主动试着去理解、去适应、去驾驭新的力量。清晨的咖啡，女儿的笑脸，倾听窗外的鸟鸣，这些感受是无法被任何形式的人工智能取代的。" }
+                    { type: 'text', value: "与其在恐惧中裹足不前，不如主动试着去理解、去适应、去驾驭新的力量。清晨的咖啡，女儿的脸，倾听窗外的鸟鸣，这些感受是无法被任何形式的人工智能取代的。" }
                 ]
             }
         ];
