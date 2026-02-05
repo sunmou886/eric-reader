@@ -29,9 +29,11 @@
             height: 100vh;
         }
         #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 20px; }
-        .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .article-card h2 { margin: 0 0 12px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-        .article-card p { color: var(--sub); font-size: 16px; margin: 0; }
+        .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 20px; align-items: flex-start; }
+        .article-card .info { flex: 1; }
+        .article-card h2 { margin: 0 0 12px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        .article-card p { color: var(--sub); font-size: 14px; margin: 0; }
+        .article-card img { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; background: #eee; }
         
         .bilingual-block { margin-bottom: 40px; }
         .en { font-size: 19px; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
@@ -41,6 +43,7 @@
         button { padding: 12px 24px; border-radius: 22px; border: none; background: var(--text); color: white; cursor: pointer; font-size: 16px; font-weight: 500; }
         .back-btn { background: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; }
         .back-btn:hover { color: var(--text); }
+        .cover-img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 40px; }
     </style>
 </head>
 <body>
@@ -65,12 +68,13 @@
             {
                 id: "2018621691006439603",
                 title: "The Silent Backbone of AI Infrastructure",
+                img: "https://pbs.twimg.com/media/GixN-hUXQAAvH6Y?format=jpg&name=large",
                 content: [
-                    { en: "Infrastructure is the silent backbone of the AI revolution.", cn: "基础设施是 AI 革命中沉默的支柱。" },
-                    { en: "As models get larger, the physical limits of compute and power become the primary bottlenecks.", cn: "随着模型变得越来越大，计算和电力的物理极限成为了主要的瓶颈。" },
-                    { en: "Building scalable, efficient data centers is no longer just an engineering task—it's a strategic necessity.", cn: "构建可扩展、高效的数据中心不再仅仅是一项工程任务，而是一种战略必然。" },
-                    { en: "We are entering an era where the proximity to energy sources defines the speed of intelligence.", cn: "我们正进入一个靠近能源就决定了智能速度的时代。" },
-                    { en: "The next decade will belong to those who can master the orchestration of hardware and software at planetary scale.", cn: "下一个十年将属于那些能够在全球规模下掌控硬件和软件编排的人。" }
+                    { en: "The infrastructure layer is often overlooked in favor of flashier AI models, but it's where the real battles are won.", cn: "人们往往更看重华丽的 AI 模型，而忽略了基础设施层，但这才是真正决定胜负的地方。" },
+                    { en: "We are entering an age where energy and cooling determine the speed of innovation as much as algorithms do.", cn: "我们正进入一个能源和冷却技术与算法同样决定创新速度的时代。" },
+                    { en: "Scaling to the next level requires a complete rethink of how data centers are designed and located.", cn: "迈向下一个台阶需要彻底重新思考数据中心的设计和选址方式。" },
+                    { en: "Infrastructure is not just hardware; it's a strategic asset that defines a company's longevity in the AI race.", cn: "基础设施不仅仅是硬件；它是一项战略资产，定义了一家公司在 AI 竞赛中的生命力。" },
+                    { en: "As we move towards more autonomous agents, the reliability of the underlying grid becomes paramount.", cn: "随着我们迈向更具自主性的智能体，底层电网的可靠性变得至关重要。" }
                 ]
             }
         ];
@@ -87,8 +91,11 @@
             const list = document.getElementById('list');
             list.innerHTML = articles.map(a => `
                 <div class="article-card" onclick="read('${a.id}')">
-                    <h2>${a.title}</h2>
-                    <p>Archive ID: ${a.id}</p>
+                    <div class="info">
+                        <h2>${a.title}</h2>
+                        <p>Archive ID: ${a.id}</p>
+                    </div>
+                    <img src="${a.img}" alt="cover">
                 </div>
             `).join('');
         }
@@ -100,7 +107,8 @@
             const reader = document.getElementById('reader');
             reader.style.display = 'block';
             document.getElementById('article-body').innerHTML = `
-                <h1 style="font-size: 40px; margin-bottom: 56px; font-weight: 700;">${a.title}</h1>
+                <h1 style="font-size: 40px; margin-bottom: 24px; font-weight: 700;">${a.title}</h1>
+                <img src="${a.img}" class="cover-img">
                 ` + a.content.map((p, i) => `
                     <div class="bilingual-block" id="p-${i}">
                         <div class="en">${p.en}</div>
