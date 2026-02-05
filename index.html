@@ -7,10 +7,10 @@
     <style>
         :root {
             --bg: #ffffff;
-            --text: #191919;
-            --sub: #757575;
+            --text: #1d1d1f;
+            --sub: #86868b;
             --accent: #1a8917;
-            --border: #f2f2f2;
+            --border: #f5f5f7;
         }
         body {
             font-family: -apple-system, "Charter", "Georgia", serif;
@@ -19,6 +19,7 @@
             color: var(--text);
             display: flex;
             justify-content: center;
+            -webkit-font-smoothing: antialiased;
         }
         #login-screen {
             display: flex;
@@ -27,30 +28,35 @@
             justify-content: center;
             height: 100vh;
         }
-        #main-content { display: none; width: 100%; max-width: 720px; padding: 40px 20px; }
-        .article-card { padding: 20px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .article-card h2 { margin: 0 0 10px 0; font-size: 24px; }
-        .bilingual-row { display: flex; gap: 40px; margin-bottom: 24px; line-height: 1.6; }
-        .en, .cn { flex: 1; font-size: 18px; }
-        .en { color: var(--sub); }
-        input { padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 10px; }
-        button { padding: 10px 20px; border-radius: 20px; border: none; background: var(--text); color: white; cursor: pointer; }
+        #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 20px; }
+        .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .article-card h2 { margin: 0 0 12px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+        .article-card p { color: var(--sub); font-size: 16px; margin: 0; }
+        
+        .bilingual-block { margin-bottom: 40px; }
+        .en { font-size: 19px; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
+        .cn { font-size: 18px; line-height: 1.6; color: var(--sub); margin-bottom: 24px; }
+        
+        input { padding: 12px 16px; border-radius: 12px; border: 1px solid #d2d2d7; margin-bottom: 16px; font-size: 16px; width: 240px; }
+        button { padding: 12px 24px; border-radius: 22px; border: none; background: var(--text); color: white; cursor: pointer; font-size: 16px; font-weight: 500; }
+        .back-btn { background: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; }
+        .back-btn:hover { color: var(--text); }
     </style>
 </head>
 <body>
     <div id="login-screen">
-        <h1>🔒 Eric's Reader</h1>
-        <input type="password" id="pass" placeholder="Enter password">
-        <button onclick="login()">Login</button>
+        <h1 style="font-size: 40px; margin-bottom: 32px;">🔒 Eric's Reader</h1>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="login()">Sign In</button>
     </div>
     <div id="main-content">
-        <header style="margin-bottom: 60px;">
-            <h1 style="font-size: 42px;">Your Library</h1>
-            <p style="color: var(--sub);">Bilingual insights curated by Watson.</p>
+        <header style="margin-bottom: 80px;">
+            <h1 style="font-size: 48px; font-weight: 700; margin-bottom: 16px;">Library</h1>
+            <p style="font-size: 21px; color: var(--sub);">A sanctuary for bilingual deep reads.</p>
         </header>
         <div id="list"></div>
         <div id="reader" style="display:none;">
-            <button onclick="showList()" style="margin-bottom: 20px;">← Back</button>
+            <button onclick="showList()" class="back-btn">← Back to Library</button>
             <div id="article-body"></div>
         </div>
     </div>
@@ -58,11 +64,13 @@
         const articles = [
             {
                 id: "2018621691006439603",
-                title: "Thoughts on AI Agents and Infrastructure",
+                title: "The Silent Backbone of AI Infrastructure",
                 content: [
-                    { en: "The evolution of AI agents is rapidly moving from simple task execution to complex autonomous systems.", cn: "AI 智能体的进化正在迅速从简单的任务执行转向复杂的自主系统。" },
-                    { en: "The core challenge lies in building robust infrastructure that can handle long-term context and complex tool calling.", cn: "核心挑战在于构建能够处理长期上下文和复杂工具调用的强大基础设施。" },
-                    { en: "In the next year, we expect to see more agents that don't just wait for instructions but proactively solve problems.", cn: "在未来一年里，我们预计会看到更多的智能体，它们不仅在等待指令，而是主动解决问题。" }
+                    { en: "Infrastructure is the silent backbone of the AI revolution.", cn: "基础设施是 AI 革命中沉默的支柱。" },
+                    { en: "As models get larger, the physical limits of compute and power become the primary bottlenecks.", cn: "随着模型变得越来越大，计算和电力的物理极限成为了主要的瓶颈。" },
+                    { en: "Building scalable, efficient data centers is no longer just an engineering task—it's a strategic necessity.", cn: "构建可扩展、高效的数据中心不再仅仅是一项工程任务，而是一种战略必然。" },
+                    { en: "We are entering an era where the proximity to energy sources defines the speed of intelligence.", cn: "我们正进入一个靠近能源就决定了智能速度的时代。" },
+                    { en: "The next decade will belong to those who can master the orchestration of hardware and software at planetary scale.", cn: "下一个十年将属于那些能够在全球规模下掌控硬件和软件编排的人。" }
                 ]
             }
         ];
@@ -80,7 +88,7 @@
             list.innerHTML = articles.map(a => `
                 <div class="article-card" onclick="read('${a.id}')">
                     <h2>${a.title}</h2>
-                    <p style="color:var(--sub)">Article ID: ${a.id}</p>
+                    <p>Archive ID: ${a.id}</p>
                 </div>
             `).join('');
         }
@@ -88,12 +96,13 @@
         function read(id) {
             const a = articles.find(x => x.id === id);
             document.getElementById('list').style.display = 'none';
+            document.querySelector('header').style.display = 'none';
             const reader = document.getElementById('reader');
             reader.style.display = 'block';
             document.getElementById('article-body').innerHTML = `
-                <h1 style="font-size: 36px; margin-bottom: 40px;">${a.title}</h1>
+                <h1 style="font-size: 40px; margin-bottom: 56px; font-weight: 700;">${a.title}</h1>
                 ` + a.content.map((p, i) => `
-                    <div class="bilingual-row" id="p-${i}">
+                    <div class="bilingual-block" id="p-${i}">
                         <div class="en">${p.en}</div>
                         <div class="cn">${p.cn}</div>
                     </div>
@@ -102,15 +111,18 @@
             // Restore progress
             const progress = localStorage.getItem('read-pos-' + id);
             if(progress) {
-                document.getElementById(progress).scrollIntoView();
+                setTimeout(() => {
+                    const el = document.getElementById(progress);
+                    if(el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
             }
 
             // Save progress on scroll
             window.onscroll = () => {
-                const rows = document.querySelectorAll('.bilingual-row');
+                const rows = document.querySelectorAll('.bilingual-block');
                 rows.forEach(row => {
                     const rect = row.getBoundingClientRect();
-                    if(rect.top >= 0 && rect.top <= 200) {
+                    if(rect.top >= 0 && rect.top <= 300) {
                         localStorage.setItem('read-pos-' + id, row.id);
                     }
                 });
@@ -119,7 +131,9 @@
 
         function showList() {
             document.getElementById('list').style.display = 'block';
+            document.querySelector('header').style.display = 'block';
             document.getElementById('reader').style.display = 'none';
+            window.onscroll = null;
         }
     </script>
 </body>
