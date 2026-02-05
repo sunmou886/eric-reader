@@ -31,7 +31,7 @@
             height: 100vh;
             width: 100%;
             max-width: 400px;
-            padding: 20px 24px; /* 设置左右 padding 为 24px */
+            padding: 20px 24px;
             box-sizing: border-box;
         }
         .pass-display {
@@ -80,7 +80,7 @@
             display: none; 
             width: 100%; 
             max-width: 680px; 
-            padding: 80px 24px; /* 设置左右 padding 为 24px */
+            padding: 80px 24px;
             box-sizing: border-box;
         }
         .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 24px; align-items: flex-start; }
@@ -90,13 +90,20 @@
         .article-card img { width: 140px; height: 90px; object-fit: cover; border-radius: 12px; background: #f5f5f7; border: 1px solid rgba(0,0,0,0.05); }
         
         .article-body-container { padding-bottom: 100px; }
-        .mono-block { font-size: 18px; line-height: 1.7; color: var(--text); margin-bottom: 32px; white-space: pre-wrap; }
-        .article-img { width: 100%; height: auto; border-radius: 12px; margin: 24px 0 48px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .mono-block { 
+            font-size: 18px; 
+            line-height: 1.8; 
+            color: var(--text); 
+            margin-bottom: 32px; 
+            white-space: pre-wrap; 
+            text-align: justify; /* 两端对齐 */
+        }
+        .article-img { width: 100%; height: auto; border-radius: 12px; margin: 24px 0 48px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: block; }
         h2.article-sub { font-size: 28px; margin-top: 56px; margin-bottom: 24px; font-weight: 700; }
         
         .back-btn { background: none; border: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; cursor: pointer; }
         .back-btn:hover { color: var(--text); }
-        .cover-img { width: 100%; height: auto; border-radius: 16px; margin-bottom: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .cover-img { width: 100%; height: auto; border-radius: 16px; margin-bottom: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: block; }
     </style>
 </head>
 <body>
@@ -143,11 +150,11 @@
                     { type: 'text', value: "有一天晚上，我照例把电脑合上，准备收收桌面睡觉，才突然意识到一个有点荒谬的事实：那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。" },
                     { type: 'image', value: "https://onevcat.com/assets/images/2025/vibe-coding.png" },
                     { type: 'heading', value: "存在危机与职业重构" },
-                    { type: 'text', value: "在 AI 的协助下，我发现自己完成工作的速度前所前有地快。快到一种程度：日历上的空白开始变多，但那种熟悉的成就感却并没有如期出现。" },
+                    { type: 'text', value: "在 AI 的协助下，我发现自己完成工作的速度前所未有地快。快到一种程度：日历上的空白开始变多，但那种熟悉的成就感却并没有如期出现。" },
                     { type: 'image', value: "https://onevcat.com/assets/images/2025/horse-engine.png" },
                     { type: 'image', value: "https://onevcat.com/assets/images/2025/chess-elo.png" },
                     { type: 'heading', value: "结语" },
-                    { type: 'text', value: "与其在恐惧中裹足不前，不如主动试着去理解、去适应、去驾驭新的力量。清晨的咖啡，女儿的脸，倾听窗外的鸟鸣，这些感受是无法被任何形式的人工智能取代的。" }
+                    { type: 'text', value: "与其在恐惧中裹足不前，不如主动试着去理解、去适应、去驾驭新的力量。清晨的咖啡，女儿的笑脸，倾听窗外的鸟鸣，这些感受是无法被任何形式的人工智能取代的。" }
                 ]
             }
         ];
@@ -227,7 +234,7 @@
             
             htmlContent += a.content.map((item, i) => {
                 if(item.type === 'heading') return `<h2 class="article-sub">${item.value}</h2>`;
-                if(item.type === 'image') return `<img src="${item.value}" class="article-img" onerror="this.style.display='none'">`;
+                if(item.type === 'image') return `<img src="${item.value}" class="article-img" onload="this.style.display='block'" onerror="this.style.display='none'">`;
                 return `<div class="mono-block" id="p-${i}">${item.value}</div>`;
             }).join('');
             
