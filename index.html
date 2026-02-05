@@ -96,9 +96,11 @@
             color: var(--text); 
             margin-bottom: 32px; 
             white-space: pre-wrap; 
-            text-align: justify; /* 两端对齐 */
+            text-align: justify;
         }
-        .article-img { width: 100%; height: auto; border-radius: 12px; margin: 24px 0 48px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: block; }
+        .article-img-wrapper { margin: 24px 0 48px 0; text-align: center; }
+        .article-img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: block; }
+        .img-caption { font-size: 14px; color: var(--sub); margin-top: 12px; font-style: italic; }
         h2.article-sub { font-size: 28px; margin-top: 56px; margin-bottom: 24px; font-weight: 700; }
         
         .back-btn { background: none; border: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; cursor: pointer; }
@@ -137,24 +139,29 @@
                     { type: 'text', value: "提笔写下这篇总结的时候，窗外的银杏叶已经落得差不多了，天气也倏忽之间就冷了下来。东京的秋天走得安静，只留下满地金黄，但冬天却来得急躁，提醒人们时间确实在向前流动。" },
                     { type: 'text', value: "按照往年的惯例，我大概会用“懒癌发作”或者“没什么进取心”作为开场白：一方面习惯性自嘲，另一方面也给自己留点退路，装作好像只要态度足够散淡，变化就追不上来的样子。但回望 2025 年，我发现这些词突然变得不太合适了。并不是我变得勤奋了，而是这个世界的变化速度，已经快到了即使你选择“躺平”，也能清楚地感觉到身下的地板在带着你呼呼向前移动。" },
                     { type: 'text', value: "如果说前几年我们还在讨论 AI 能不能做事、会不会做事，那么到了 2025 年，这个问题几乎已经失去了继续讨论的意义。我们不再站在岸边观察潮水，而是已经身处浪潮之中。无论情愿与否，这一年，几乎没有人还能置身事外，所有人都成为了这场巨变的直接参与者。" },
+                    { type: 'text', value: "今年的总结，我想试着从几个贯穿全年的主题出发，聊聊在这个智能骤然丰裕的时代拐点上，我的一些观察、困惑、犹豫，以及尚未成型的浅薄思考。" },
                     { type: 'heading', value: "智能膨胀与元学习" },
                     { type: 'text', value: "两个娃一天天长大，也都进入了小学，姐姐更是为了准备初中考试开始了补习班生涯。她有时就会把考题和讲义拿回家来，我有时也就饶有兴致地去看两眼。其中一次考试的题目有点难度，我在做完之后也不能确认是否正确。这时候，我自然而然地打开 ChatGPT 点上 thinking，然后把考题拍照发给了 AI 寻求确认。" },
                     { type: 'text', value: "几分钟后，我拿到了一个“完美无瑕、无懈可击”的答案。我马上把纸笔拿在手里，打算给娃开始讲解时，我突然想到：如果刚才不是我使用 AI，而是她自己去求助大模型..." },
-                    { type: 'image', value: "https://onevcat.com/assets/images/2025/deepseek.png" },
+                    { type: 'image', value: "https://onevcat.com/assets/images/2025/deepseek.png", caption: "DeepSeek: 普惠基础设施的临界点" },
+                    { type: 'text', value: "随着推理 token 价格的持续下探，以及高质量开源模型带来的普惠、安全与可控性，智能正在成为一种可能比水和电还廉价的基础设置。元学习（Meta-Learning）——也就是学习如何学习、以及如何指挥智能——正在成为更重要的核心能力。" },
                     { type: 'heading', value: "时间折叠与感知悖论" },
-                    { type: 'text', value: "今年给我最大的整体感受，是一种类似“时间被折叠”的眩晕。" },
-                    { type: 'text', value: "物理时间依然以秒为单位匀速流逝，但主观时间却被压缩得越来越薄。有些人已经习惯与 AI 共生，他们生活在一个指数级加速的未来；而另一些人，依然站在原先熟悉的线性时间里。" },
+                    { type: 'text', value: "今年给我最大的整体感受，是一种类似“时间被折叠”的眩晕。每一个月，甚至每一个星期，都会有新的能力出现，迫使你重新校准认知。这一年里，进化本身成了日常。" },
+                    { type: 'text', value: "物理时间依然以秒为单位匀速流逝，但主观时间却被压缩得越来越薄。我开始清楚地意识到，身边的人正在被分流进不同的“时间线”中：有些人已经习惯与 AI 共生，他们生活在一个指数级加速的未来。" },
                     { type: 'heading', value: "经验诅咒与思维惰性" },
-                    { type: 'text', value: "在 2025 年我对“中年危机”这个词有了新的定义：在 AI 的帮助下，体力的衰退可能不再是问题，因为 token 的产出会比任何手写都快都廉价。真正危险的，是认知逐渐僵化。" },
+                    { type: 'text', value: "在业界摸爬滚打了十来年，经验自然也成了我引以为傲的“资产”。但到了今年，我不得不承认：在记忆召回、知识检索和模式匹配这些维度上，LLM 已经是更大的记忆体、更快的检索器。" },
+                    { type: 'text', value: "在 2025 年我对“中年危机”这个词有了新的定义：真正危险的，是认知逐渐僵化，但本人却对此毫无察觉，最终它变成再也越不过的墙壁。" },
                     { type: 'heading', value: "生产力革命与 Vibe Coding" },
-                    { type: 'text', value: "有一天晚上，我照例把电脑合上，准备收收桌面睡觉，才突然意识到一个有点荒谬的事实：那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。" },
-                    { type: 'image', value: "https://onevcat.com/assets/images/2025/vibe-coding.png" },
+                    { type: 'text', value: "那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。没有敲击、没有尝试、没有报错、没有调试。我只是在和另一个工程师对话一样，不断明确目标，调整边界条件，然后等结果出现。" },
+                    { type: 'image', value: "https://onevcat.com/assets/images/2025/vibe-coding.png", caption: "Vibe Coding: 生产力的数量级跃迁" },
+                    { type: 'text', value: "在绝大多数情况下，我只需要倒上一杯咖啡或者去院子里舒展一下筋骨，再回到桌前时，它已经出色完成了任务。某种我曾经非常熟悉、甚至依赖的“身体记忆”都随之退出了历史舞台。" },
                     { type: 'heading', value: "存在危机与职业重构" },
-                    { type: 'text', value: "在 AI 的协助下，我发现自己完成工作的速度前所未有地快。快到一种程度：日历上的空白开始变多，但那种熟悉的成就感却并没有如期出现。" },
-                    { type: 'image', value: "https://onevcat.com/assets/images/2025/horse-engine.png" },
-                    { type: 'image', value: "https://onevcat.com/assets/images/2025/chess-elo.png" },
+                    { type: 'text', value: "技术与时间被释放的背后，也潜藏着一种难以回避的虚无感。也许作为人类，你已经不再是瓶颈，不再重要了。" },
+                    { type: 'image', value: "https://onevcat.com/assets/images/2025/horse-engine.png", caption: "引擎效率与人均拥有马匹数量的关系" },
+                    { type: 'image', value: "https://onevcat.com/assets/images/2025/chess-elo.png", caption: "国际象棋等级分：AI 跨越人类极限" },
+                    { type: 'text', value: "如果 AI 擅长“制造和执行”，那么人类的价值或许正在向“选择与权衡”倾斜。AI 可以生成无数种可能的未来，但只有人类能够在这森罗万象之中择其一，并赋予它意义。" },
                     { type: 'heading', value: "结语" },
-                    { type: 'text', value: "与其在恐惧中裹足不前，不如主动试着去理解、去适应、去驾驭新的力量。清晨的咖啡，女儿的笑脸，倾听窗外的鸟鸣，这些感受是无法被任何形式的人工智能取代的。" }
+                    { type: 'text', value: "2025 年，可能是我们需要重新定义自身的一年。清晨的咖啡，女儿的笑脸，倾听窗外的鸟鸣，种种这些感受是无法被任何形式的人工智能取代的，而它们才是构成生命的本质。" }
                 ]
             }
         ];
@@ -234,7 +241,7 @@
             
             htmlContent += a.content.map((item, i) => {
                 if(item.type === 'heading') return `<h2 class="article-sub">${item.value}</h2>`;
-                if(item.type === 'image') return `<img src="${item.value}" class="article-img" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+                if(item.type === 'image') return `<div class="article-img-wrapper"><img src="${item.value}" class="article-img" onerror="this.parentElement.style.display='none'"><div class="img-caption">${item.caption}</div></div>`;
                 return `<div class="mono-block" id="p-${i}">${item.value}</div>`;
             }).join('');
             
