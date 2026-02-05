@@ -60,7 +60,20 @@
             transition: background 0.2s;
         }
         .key:active { background: #e0e0e0; }
-        .key.special { grid-column: span 3; background: #1d1d1f; color: white; font-size: 14px; }
+        
+        /* 强制 Clear 和 Unlock 占满最后一行并并排 */
+        .bottom-bar {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .key.special {
+            flex: 1;
+            background: #1d1d1f;
+            color: white;
+            font-size: 14px;
+        }
         
         #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 20px; }
         .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 24px; align-items: flex-start; }
@@ -71,7 +84,8 @@
         
         .bilingual-block { margin-bottom: 48px; }
         .en { font-size: 19px; line-height: 1.65; color: var(--text); margin-bottom: 12px; font-style: italic; }
-        .cn { font-size: 18px; line-height: 1.7; color: var(--sub); margin-bottom: 0; }
+        .cn { font-size: 18px; line-height: 1.7; color: var(--text); margin-bottom: 0; }
+        .mono-block { font-size: 18px; line-height: 1.7; color: var(--text); margin-bottom: 32px; }
         
         .back-btn { background: none; border: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; cursor: pointer; }
         .back-btn:hover { color: var(--text); }
@@ -102,24 +116,29 @@
         const articles = [
             {
                 id: "2025-final",
-                title: "2025 年终总结",
+                title: "2025 年终总结 (全文版)",
+                isBilingual: false,
                 img: "2025-final-cover.png",
                 content: [
-                    { en: "Tokyo's autumn leaves fall quietly, but winter arrives with urgency, reminding us that time flows forward.", cn: "东京的银杏叶静悄悄地落下，冬天却带着急促感到来，提醒我们时间正不断向前。" },
-                    { en: "In 2025, the world changed so fast that even if you chose to 'lie flat', the floor was moving beneath you.", cn: "2025 年，世界变化之快，即使你选择“躺平”，身下的的地板也在带着你飞速前行。" },
-                    { en: "We are no longer standing on the shore watching the tide; we are already in the midst of the wave.", cn: "我们不再是站在岸边观察潮水的人，我们已经身处巨浪之中。" },
-                    { en: "Intelligence is no longer a scarce resource; it is becoming as common as water and electricity.", cn: "智能不再是稀缺资源，它正在变得像水和电一样普及。" },
-                    { en: "Meta-learning—learning how to learn and how to direct intelligence—is becoming the core competency.", cn: "元学习——学习如何学习以及如何指挥智能——正成为核心竞争力。" }
+                    "提笔写下这篇总结的时候，窗外的银杏叶已经落得差不多了，天气也倏忽之间就冷了下来。东京的秋天走得安静，只留下满地金黄，但冬天却来得急躁，提醒人们时间确实在向前流动。",
+                    "按照往年的惯例，我大概会用“懒癌发作”或者“没什么进取心”作为开场白。但回望 2025 年，我发现这些词突然变得不太合适了。并不是我变得勤奋了，而是这个世界的变化速度，已经快到了即使你选择“躺平”，也能清楚地感觉到身下的地板在带着你呼呼向前移动。",
+                    "智能膨胀与元学习：我逐渐意识到，对于孩子们来说，问题也许已经不再是“学什么”，而是“为什么学、以及如何学”。元学习（Meta-Learning）——也就是学习如何学习、以及如何指挥智能——正在成为更重要的核心能力。",
+                    "时间折叠与感知悖论：物理时间依然以秒为单位匀速流逝，但主观时间却被压缩得越来越薄。我开始清楚地意识到，身边的人正在被分流进不同的“时间线”中：有些人已经习惯与 AI 共生，他们生活在一个指数级加速的未来。",
+                    "生产力革命与 Vibe Coding：有一天晚上，我照例把电脑合上，准备收收桌面睡觉，才突然意识到一个有点荒谬的事实：那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。不论是什么项目，我都已经习惯了完全和 AI 的协作。",
+                    "存在危机与职业重构：如果 AI 擅长“制造和执行”，那么人类的价值或许正在向“选择与权衡”倾斜。我们需要在无数可能的未来中，选择其中一条道路，并为它命名、为它负责。",
+                    "结语：愿我们在新的时代，都能找到属于自己的位置。愿人类壮丽的此行，终能抵达璀璨的群星。"
                 ]
             },
             {
                 id: "2018621691006439603",
-                title: "The Silent Backbone of AI Infrastructure",
+                title: "AI Infrastructure (Thread)",
+                isBilingual: true,
                 img: "https://pbs.twimg.com/media/GixN-hUXQAAvH6Y?format=jpg&name=large",
                 content: [
-                    { en: "The infrastructure layer is often overlooked in favor of flashier AI models, but it's where the real battles are won.", cn: "人们往往更看重华丽的 AI 模型，而忽略了基础设施层，但这才是真正决定胜负的地方。" },
-                    { en: "We are entering an age where energy and cooling determine the speed of innovation as much as algorithms do.", cn: "我们正进入一个能源和冷却技术与算法同样决定创新速度的时代。" },
-                    { en: "Scaling to the next level requires a complete rethink of how data centers are designed and located.", cn: "迈向下一个台阶需要彻底重新思考数据中心的设计和选址方式。" }
+                    { en: "Infrastructure is the silent backbone of the AI revolution.", cn: "基础设施是 AI 革命中沉默的支柱。" },
+                    { en: "As models get larger, the physical limits of compute and power become the primary bottlenecks.", cn: "随着模型变得越来越大，计算和电力的物理极限成为了主要的瓶颈。" },
+                    { en: "Building scalable, efficient data centers is no longer just an engineering task—it's a strategic necessity.", cn: "构建可扩展、高效的数据中心不再仅仅是一项工程任务，而是一种战略必然。" },
+                    { en: "We are entering an era where the proximity to energy sources defines the speed of intelligence.", cn: "我们正进入一个靠近能源就决定了智能速度的时代。" }
                 ]
             }
         ];
@@ -139,8 +158,10 @@
         function renderKeyboard() {
             const kb = document.getElementById('kb');
             kb.innerHTML = keys.map(k => `<div class="key" onclick="press('${k}')">${k}</div>`).join('') + 
-                          `<div class="key special" style="grid-column: span 3" onclick="clearPass()">Clear</div>` +
-                          `<div class="key special" style="grid-column: span 3" onclick="checkPass()">Unlock</div>`;
+                          `<div class="bottom-bar">` +
+                          `<div class="key special" onclick="clearPass()">Clear</div>` +
+                          `<div class="key special" onclick="checkPass()">Unlock</div>` +
+                          `</div>`;
         }
 
         function press(k) {
@@ -191,15 +212,24 @@
             document.getElementById('lib-header').style.display = 'none';
             const reader = document.getElementById('reader');
             reader.style.display = 'block';
-            document.getElementById('article-body').innerHTML = `
-                <h1 style="font-size: 40px; margin-bottom: 24px; font-weight: 700;">${a.title}</h1>
-                <img src="${a.img}" class="cover-img">
-                ` + a.content.map((p, i) => `
+            
+            let htmlContent = `<h1 style="font-size: 40px; margin-bottom: 24px; font-weight: 700;">${a.title}</h1>`;
+            htmlContent += `<img src="${a.img}" class="cover-img">`;
+            
+            if(a.isBilingual) {
+                htmlContent += a.content.map((p, i) => `
                     <div class="bilingual-block" id="p-${i}">
                         <div class="en">${p.en}</div>
                         <div class="cn">${p.cn}</div>
                     </div>
                 `).join('');
+            } else {
+                htmlContent += a.content.map((p, i) => `
+                    <div class="mono-block" id="p-${i}">${p}</div>
+                `).join('');
+            }
+            
+            document.getElementById('article-body').innerHTML = htmlContent;
             
             const progress = localStorage.getItem('read-pos-' + id);
             if(progress) {
@@ -210,8 +240,8 @@
             }
 
             window.onscroll = () => {
-                const rows = document.querySelectorAll('.bilingual-block');
-                rows.forEach(row => {
+                const blocks = document.querySelectorAll('.bilingual-block, .mono-block');
+                blocks.forEach(row => {
                     const rect = row.getBoundingClientRect();
                     if(rect.top >= 0 && rect.top <= 300) {
                         localStorage.setItem('read-pos-' + id, row.id);
