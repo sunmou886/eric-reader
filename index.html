@@ -13,6 +13,7 @@
             --border: #f5f5f7;
             --key-bg: #f5f5f7;
             --link: #0071e3;
+            --max-width: 960px; /* 定义版心宽度 */
         }
         body {
             font-family: -apple-system, "SF Pro Display", "Charter", "Georgia", serif;
@@ -80,7 +81,7 @@
         #main-content { 
             display: none; 
             width: 100%; 
-            max-width: 680px; 
+            max-width: var(--max-width); /* 使用 960px 版心 */
             padding: 80px 24px;
             box-sizing: border-box;
         }
@@ -90,7 +91,11 @@
         .article-card p { color: var(--sub); font-size: 15px; margin: 0; line-height: 1.5; }
         .article-card img { width: 140px; height: 90px; object-fit: cover; border-radius: 12px; background: #f5f5f7; border: 1px solid rgba(0,0,0,0.05); }
         
-        .article-body-container { padding-bottom: 120px; }
+        .article-body-container { 
+            padding-bottom: 120px; 
+            max-width: 720px; /* 正文阅读建议比 960 略窄，保持单行字数在 40-60 个，体验最佳 */
+            margin: 0 auto; 
+        }
         .paragraph { 
             font-size: 18px; 
             line-height: 1.8; 
@@ -154,12 +159,12 @@
                     
                     <h2 class="article-sub">智能膨胀与元学习</h2>
                     <div class="paragraph">两个娃一天天长大，也都进入了小学，姐姐更是为了准备初中考试开始了补习班生涯。她有时就会把考题和讲义拿回家来，我有时也就饶有兴致地去看两眼。其中一次考试的题目有点难度，我在做完之后也不能确认是否正确。这时候，我自然而然地打开 ChatGPT 点上 thinking，然后把考题拍照发给了 AI 寻求确认。</div>
-                    <div class="paragraph">几分钟后，我拿到了一个“完美无瑕、无懈可击”的答案。我马上把纸笔拿在手里，打算给娃开始讲解时，我突然想到：如果刚才不是我使用 AI，而是她自己去求助大模型...</div>
+                    <div class="paragraph">几分钟后，我拿到了一个“完美无瑕、无懈可击”的答案。我马上把纸笔拿在手里，打算给娃开始讲解时，我突然想到：如果刚才不是我使用 AI，而是她自己去求助大模型，那么她此刻面对的就不再是一个半吊子没耐心又讲不清的“知识中间商”，而是几乎不会出错、能够随时反问、可以要求换“小学生都能听懂”的解释方式、甚至永远不会不耐烦的“超级老师”。</div>
                     <div class="article-img-wrapper">
                         <img src="https://onevcat.com/assets/images/2025/deepseek.png" class="article-img">
                         <div class="img-caption">DeepSeek: 普惠基础设施的临界点</div>
                     </div>
-                    <div class="paragraph">我在年初<a href="https://onevcat.com/2025/01/deepseek-ai/">关于 DeepSeek 的文章</a>里写说明过这一点：DeepSeek 正在切实努力让推理式 AI 像水和电一样，成为全球普惠的基础设施。随着推理 token 价格的<a href="https://epoch.ai/data-insights/llm-inference-price-trends">持续下探</a>，以及高质量开源模型带来的普惠、安全与可控性，智能正在成为一种可能比水和电还廉价的基础设置。</div>
+                    <div class="paragraph">我在年初<a href="https://onevcat.com/2025/01/deepseek-ai/">关于 DeepSeek 的文章</a>里写说明过这一点：DeepSeek 正在切实努力让推理式 AI 像水和电一样，成为全球普惠的基础设施。随着推理 token 价格的持续下探，以及高质量开源模型带来的普惠、安全与可控性，智能正在成为一种可能比水和电还廉价的基础设置。</div>
                     <div class="paragraph">我逐渐意识到，对于孩子们来说，问题也许已经不再是“学什么”，而是“为什么学、以及如何学”。元学习（Meta-Learning）——也就是学习如何学习、以及如何指挥智能——正在成为更重要的核心能力。</div>
                     
                     <h2 class="article-sub">时间折叠与感知悖论</h2>
@@ -171,7 +176,7 @@
                     <div class="paragraph">为了对抗这种思维惰性，我开始刻意减少对经验与归纳法的依赖，重新捡起那些曾被放在一旁的<a href="https://zh.wikipedia.org/zh-cn/%E7%AC%AC%E4%B8%80%E5%8E%9F%E7%90%86">“第一性原理”</a>。</div>
                     
                     <h2 class="article-sub">生产力革命与 Vibe Coding</h2>
-                    <div class="paragraph">有一天晚上，我照例把电脑合上，准备收收桌面睡觉，才突然意识到一个有点荒谬的事实：那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。没有敲击、没有尝试、没有报错、没有调试。更多的时候，我只是像在和另一个工程师对话一样，不断明确目标，调整边界条件，然后等结果出现。</div>
+                    <div class="paragraph">有一天晚上，我照例把电脑合上，准备收收桌面睡觉，才突然意识到一个有点荒谬的事实：那天我一整天都在“写程序”，但我的手指几乎没有碰过键盘。没有敲击、没有尝试、没有报错、没有调试。我只是在和另一个工程师对话一样，不断明确目标，调整边界条件，然后等结果出现。</div>
                     <div class="article-img-wrapper">
                         <img src="https://onevcat.com/assets/images/2025/year-commit.jpeg" class="article-img">
                         <div class="img-caption">2025 后半年: 代码提交记录依然繁荣</div>
@@ -179,7 +184,7 @@
                     <div class="paragraph">当执行的门槛被压到极低，试错的成本随之下降，真正稀缺的反而变成了另一种能力：品味与判断。你不再需要知道每一块砖是如何砌成的，但你必须清楚自己想要建造怎样的一座房子。</div>
                     
                     <h2 class="article-sub">存在危机与职业重构</h2>
-                    <div class="paragraph">技术与时间被释放的背后，也潜藏着一种难以回避的虚无感。在 AI 的协助下，我发现自己完成工作的速度前所未有地快。以前，效率提升意味着“今天我做了很多事”；而现在，它更像是在提醒和讽刺我：“也许作为人类，你已经不再是瓶颈，不再重要了。”</div>
+                    <div class="paragraph">在 AI 的协助下，我发现自己完成工作的速度前所未有地快。快到一种程度：日历上的空白开始变多，但那种熟悉的成就感却并没有如期出现。以前，效率提升意味着“今天我做了很多事”；而现在，它更像是在提醒和讽刺我：“也许作为人类，你已经不再是瓶颈，不再重要了。”</div>
                     <div class="article-img-wrapper">
                         <img src="https://onevcat.com/assets/images/2025/engine-horse.jpg" class="article-img">
                         <div class="img-caption">引擎效率与美国人均拥有马匹数量的关系</div>
@@ -279,15 +284,7 @@
                 <img src="${a.img}" class="cover-img">
                 ` + a.htmlContent;
             
-            const progress = localStorage.getItem('read-pos-' + id);
-            if(progress) {
-                // Find nearest paragraph or heading
-                // Since this is HTML, we'll just scroll to top for full content version for now
-            }
-
-            window.onscroll = () => {
-                // Tracking logic can be added back if needed with specific IDs
-            };
+            window.scrollTo(0,0);
         }
 
         function showList() {
