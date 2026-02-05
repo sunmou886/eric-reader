@@ -11,9 +11,10 @@
             --sub: #86868b;
             --accent: #1a8917;
             --border: #f5f5f7;
+            --key-bg: #f5f5f7;
         }
         body {
-            font-family: -apple-system, "Charter", "Georgia", serif;
+            font-family: -apple-system, "SF Pro Display", "Charter", "Georgia", serif;
             margin: 0;
             background: var(--bg);
             color: var(--text);
@@ -27,7 +28,40 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
         }
+        .pass-display {
+            font-size: 32px;
+            height: 48px;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            color: var(--accent);
+            font-family: monospace;
+        }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+        .key {
+            background: var(--key-bg);
+            border-radius: 12px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .key:active { background: #e0e0e0; }
+        .key.special { grid-column: span 2; background: #1d1d1f; color: white; font-size: 14px; }
+        
         #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 20px; }
         .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 20px; align-items: flex-start; }
         .article-card .info { flex: 1; }
@@ -39,21 +73,21 @@
         .en { font-size: 19px; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
         .cn { font-size: 18px; line-height: 1.6; color: var(--sub); margin-bottom: 24px; }
         
-        input { padding: 12px 16px; border-radius: 12px; border: 1px solid #d2d2d7; margin-bottom: 16px; font-size: 16px; width: 240px; }
-        button { padding: 12px 24px; border-radius: 22px; border: none; background: var(--text); color: white; cursor: pointer; font-size: 16px; font-weight: 500; }
-        .back-btn { background: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; }
+        .back-btn { background: none; border: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; cursor: pointer; }
         .back-btn:hover { color: var(--text); }
         .cover-img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 40px; }
     </style>
 </head>
 <body>
     <div id="login-screen">
-        <h1 style="font-size: 40px; margin-bottom: 32px;">🔒 Eric's Reader</h1>
-        <input type="password" id="pass" placeholder="Password">
-        <button onclick="login()">Sign In</button>
+        <h1 style="font-size: 28px; margin-bottom: 10px; font-weight: 700;">Secure Access</h1>
+        <p style="color: var(--sub); margin-bottom: 30px;">Tap code to unlock</p>
+        <div class="pass-display" id="display"></div>
+        <div class="keyboard" id="kb"></div>
     </div>
+
     <div id="main-content">
-        <header style="margin-bottom: 80px;">
+        <header id="lib-header" style="margin-bottom: 80px;">
             <h1 style="font-size: 48px; font-weight: 700; margin-bottom: 16px;">Library</h1>
             <p style="font-size: 21px; color: var(--sub);">A sanctuary for bilingual deep reads.</p>
         </header>
@@ -63,6 +97,7 @@
             <div id="article-body"></div>
         </div>
     </div>
+
     <script>
         const articles = [
             {
@@ -79,12 +114,52 @@
             }
         ];
 
-        function login() {
-            if(document.getElementById('pass').value === 'lvxiaowei') {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                renderList();
+        let currentInput = "";
+        const targetPass = "lvxiaowei";
+        const keys = "abcdefghijklmnopqrstuvwxyz".split("");
+
+        function init() {
+            if(localStorage.getItem('isLoggedIn') === 'true') {
+                showLibrary();
+            } else {
+                renderKeyboard();
             }
+        }
+
+        function renderKeyboard() {
+            const kb = document.getElementById('kb');
+            kb.innerHTML = keys.map(k => `<div class="key" onclick="press('${k}')">${k}</div>`).join('') + 
+                          `<div class="key special" style="grid-column: span 3" onclick="clearPass()">Clear</div>` +
+                          `<div class="key special" style="grid-column: span 3" onclick="checkPass()">Unlock</div>`;
+        }
+
+        function press(k) {
+            currentInput += k;
+            document.getElementById('display').innerText = "*".repeat(currentInput.length);
+            if(currentInput === targetPass) {
+                setTimeout(checkPass, 200);
+            }
+        }
+
+        function clearPass() {
+            currentInput = "";
+            document.getElementById('display').innerText = "";
+        }
+
+        function checkPass() {
+            if(currentInput === targetPass) {
+                localStorage.setItem('isLoggedIn', 'true');
+                showLibrary();
+            } else {
+                alert("Incorrect code");
+                clearPass();
+            }
+        }
+
+        function showLibrary() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            renderList();
         }
 
         function renderList() {
@@ -103,7 +178,7 @@
         function read(id) {
             const a = articles.find(x => x.id === id);
             document.getElementById('list').style.display = 'none';
-            document.querySelector('header').style.display = 'none';
+            document.getElementById('lib-header').style.display = 'none';
             const reader = document.getElementById('reader');
             reader.style.display = 'block';
             document.getElementById('article-body').innerHTML = `
@@ -116,7 +191,6 @@
                     </div>
                 `).join('');
             
-            // Restore progress
             const progress = localStorage.getItem('read-pos-' + id);
             if(progress) {
                 setTimeout(() => {
@@ -125,7 +199,6 @@
                 }, 100);
             }
 
-            // Save progress on scroll
             window.onscroll = () => {
                 const rows = document.querySelectorAll('.bilingual-block');
                 rows.forEach(row => {
@@ -139,10 +212,12 @@
 
         function showList() {
             document.getElementById('list').style.display = 'block';
-            document.querySelector('header').style.display = 'block';
+            document.getElementById('lib-header').style.display = 'block';
             document.getElementById('reader').style.display = 'none';
             window.onscroll = null;
         }
+
+        init();
     </script>
 </body>
 </html>
