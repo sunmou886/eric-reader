@@ -60,7 +60,7 @@
             transition: background 0.2s;
         }
         .key:active { background: #e0e0e0; }
-        .key.special { grid-column: span 2; background: #1d1d1f; color: white; font-size: 14px; }
+        .key.special { grid-column: span 3; background: #1d1d1f; color: white; font-size: 14px; }
         
         #main-content { display: none; width: 100%; max-width: 680px; padding: 80px 20px; }
         .article-card { padding: 32px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 20px; align-items: flex-start; }
@@ -129,8 +129,8 @@
         function renderKeyboard() {
             const kb = document.getElementById('kb');
             kb.innerHTML = keys.map(k => `<div class="key" onclick="press('${k}')">${k}</div>`).join('') + 
-                          `<div class="key special" style="grid-column: span 3" onclick="clearPass()">Clear</div>` +
-                          `<div class="key special" style="grid-column: span 3" onclick="checkPass()">Unlock</div>`;
+                          `<div class="key special" onclick="clearPass()">Clear</div>` +
+                          `<div class="key special" onclick="checkPass()">Unlock</div>`;
         }
 
         function press(k) {
