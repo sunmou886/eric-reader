@@ -39,15 +39,30 @@
             font-size: 32px;
             height: 48px;
             letter-spacing: 4px;
-            margin-bottom: 40px;
+            margin-bottom: 12px;
             color: var(--accent);
             font-family: monospace;
         }
+        .pass-display.shake {
+            animation: shake 0.35s;
+        }
+        .pass-error {
+            height: 18px;
+            margin-bottom: 28px;
+            color: #c0392b;
+            font-size: 13px;
+        }
         .keyboard {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 12px;
             width: 100%;
+        }
+        .keyboard-row {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(4, 50px);
+            justify-content: center;
         }
         .key {
             background: var(--key-bg);
@@ -62,19 +77,15 @@
             user-select: none;
             transition: background 0.2s;
         }
-        .key:active { background: #e0e0e0; }
-        
-        .bottom-bar {
-            grid-column: 1 / -1;
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
+        .key.letter {
+            width: 50px;
+            height: 50px;
         }
-        .key.special {
-            flex: 1;
-            background: #1d1d1f;
-            color: white;
-            font-size: 14px;
+        .key:active { background: #e0e0e0; }
+        .key.close svg {
+            width: 24px;
+            height: 24px;
+            display: block;
         }
         
         #main-content { 
@@ -123,6 +134,15 @@
         .back-btn { background: none; border: none; color: var(--sub); padding: 0; margin-bottom: 40px; font-size: 16px; cursor: pointer; }
         .back-btn:hover { color: var(--text); }
         .cover-img { width: 100%; height: auto; border-radius: 16px; margin-bottom: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: block; }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+            100% { transform: translateX(0); }
+        }
     </style>
 </head>
 <body>
@@ -130,6 +150,7 @@
         <h1 style="font-size: 28px; margin-bottom: 10px; font-weight: 700;">Secure Access</h1>
         <p style="color: var(--sub); margin-bottom: 30px;">Tap code to unlock</p>
         <div class="pass-display" id="display"></div>
+        <div class="pass-error" id="pass-error"></div>
         <div class="keyboard" id="kb"></div>
     </div>
 
@@ -145,6 +166,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@latest/dist/purify.min.js"></script>
     <script>
         const articles = [
     {
@@ -156,11 +178,13 @@
 ]; // 占位符
 
         let currentInput = "";
-        const targetPass = "lvxiaowei";
+        const targetHash = "c6b4a9c785254337656a08ce6e21adc39b008741e760ee27c4d1f2250b047f75";
+        const targetLength = 9;
         const keys = "abcdefghijklmnopqrstuvwxyz".split("");
+        const removedKeys = new Set(["b", "c", "d", "f", "g", "h", "j", "k", "m", "n", "p"]);
 
         function init() {
-            if(localStorage.getItem('isLoggedIn') === 'true') {
+            if(localStorage.getItem('loginHash') === targetHash) {
                 showLibrary();
             } else {
                 renderKeyboard();
@@ -169,33 +193,86 @@
 
         function renderKeyboard() {
             const kb = document.getElementById('kb');
-            kb.innerHTML = keys.map(k => `<div class="key" onclick="press('${k}')">${k}</div>`).join('') + 
-                          `<div class="bottom-bar">` +
-                          `<div class="key special" onclick="clearPass()">Clear</div>` +
-                          `<div class="key special" onclick="checkPass()">Unlock</div>` +
-                          `</div>`;
+            const letters = keys.filter(k => !removedKeys.has(k)).slice(0, 15);
+            const items = [...letters, "close"];
+            const rows = [];
+            for (let i = 0; i < 4; i += 1) {
+                const rowChars = items.slice(i * 4, i * 4 + 4);
+                const rowKeys = rowChars.map(k => {
+                    if (k === "close") {
+                        return `<div class="key letter close" onclick="deleteLast()" aria-label="Delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5l11 0" />
+                                <path d="M12 10l4 4m0 -4l-4 4" />
+                            </svg>
+                        </div>`;
+                    }
+                    return `<div class="key letter" onclick="press('${k}')">${k}</div>`;
+                }).join('');
+                rows.push(`<div class="keyboard-row">${rowKeys}</div>`);
+            }
+            kb.innerHTML = rows.join('');
+        }
+
+        async function sha256Hex(text) {
+            const data = new TextEncoder().encode(text);
+            const digest = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(digest))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
+        function clearError() {
+            document.getElementById('pass-error').innerText = "";
+        }
+
+        function setError(message) {
+            const display = document.getElementById('display');
+            const errorEl = document.getElementById('pass-error');
+            errorEl.innerText = message;
+            display.classList.remove('shake');
+            void display.offsetWidth;
+            display.classList.add('shake');
         }
 
         function press(k) {
             currentInput += k;
+            clearError();
             document.getElementById('display').innerText = "*".repeat(currentInput.length);
-            if(currentInput === targetPass) {
-                setTimeout(checkPass, 200);
+            if(currentInput.length === targetLength) {
+                setTimeout(() => { void checkPass(); }, 200);
             }
         }
 
-        function clearPass() {
+        function clearPass(clearErrorText = true) {
             currentInput = "";
             document.getElementById('display').innerText = "";
+            if (clearErrorText) {
+                clearError();
+            }
         }
 
-        function checkPass() {
-            if(currentInput === targetPass) {
-                localStorage.setItem('isLoggedIn', 'true');
+        function deleteLast() {
+            if (!currentInput) {
+                return;
+            }
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('display').innerText = "*".repeat(currentInput.length);
+            clearError();
+        }
+
+        async function checkPass() {
+            if(!currentInput) {
+                return;
+            }
+            const inputHash = await sha256Hex(currentInput);
+            if(inputHash === targetHash) {
+                localStorage.setItem('loginHash', targetHash);
                 showLibrary();
             } else {
-                alert("Incorrect code");
-                clearPass();
+                setError("密码错误");
+                clearPass(false);
             }
         }
 
@@ -224,11 +301,28 @@
             document.getElementById('lib-header').style.display = 'none';
             const reader = document.getElementById('reader');
             reader.style.display = 'block';
-            
-            document.getElementById('article-body').innerHTML = `
-                <h1 style="font-size: 40px; margin-bottom: 24px; font-weight: 700;">${a.title}</h1>
-                <img src="${a.img}" class="cover-img">
-                ` + a.htmlContent;
+
+            const body = document.getElementById('article-body');
+            body.innerHTML = "";
+
+            const title = document.createElement('h1');
+            title.style.fontSize = "40px";
+            title.style.marginBottom = "24px";
+            title.style.fontWeight = "700";
+            title.innerText = a.title;
+
+            const cover = document.createElement('img');
+            cover.src = a.img;
+            cover.className = "cover-img";
+            cover.alt = "";
+
+            const content = document.createElement('div');
+            const sanitizer = window.DOMPurify ? DOMPurify.sanitize : (html) => html;
+            content.innerHTML = sanitizer(a.htmlContent);
+
+            body.appendChild(title);
+            body.appendChild(cover);
+            body.appendChild(content);
             
             window.scrollTo(0,0);
         }
