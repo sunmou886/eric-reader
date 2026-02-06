@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Eric's Private Reader</title>
     <style>
         :root {
@@ -13,6 +16,17 @@
             --border: #f5f5f7;
             --key-bg: #f5f5f7;
             --max-width: 960px;
+        }
+        html.lock-scroll, body.lock-scroll {
+            height: 100dvh;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            overscroll-behavior: none;
+            touch-action: none;
         }
         body {
             font-family: -apple-system, "SF Pro Display", "Charter", "Georgia", serif;
@@ -29,11 +43,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 100dvh;
             width: 100%;
             max-width: 400px;
             padding: 20px 24px;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .pass-display {
             font-size: 32px;
@@ -185,10 +200,29 @@
 
         function init() {
             if(localStorage.getItem('loginHash') === targetHash) {
+                setLoginLock(false);
                 showLibrary();
             } else {
+                setLoginLock(true);
                 renderKeyboard();
             }
+        }
+
+        function setLoginLock(locked) {
+            const html = document.documentElement;
+            if (locked) {
+                html.classList.add('lock-scroll');
+                document.body.classList.add('lock-scroll');
+                document.addEventListener('touchmove', preventScroll, { passive: false });
+            } else {
+                html.classList.remove('lock-scroll');
+                document.body.classList.remove('lock-scroll');
+                document.removeEventListener('touchmove', preventScroll, { passive: false });
+            }
+        }
+
+        function preventScroll(e) {
+            e.preventDefault();
         }
 
         function renderKeyboard() {
@@ -279,6 +313,7 @@
         function showLibrary() {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
+            setLoginLock(false);
             renderList();
         }
 
